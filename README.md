@@ -47,3 +47,7 @@ QWebview-Plus에서 제공하는 kiwoom 객체와 이벤트를 손쉽게 사용�
 ## License
 Licensed under MIT:
 https://opensource.org/licenses/MIT
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/sculove/qwebview-plus/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
