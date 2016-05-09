@@ -328,3 +328,9 @@ class Kiwoom(QObject):
 	def disconnectRealData(self, scnNo):
 		self.ocx.dynamicCall("DisconnectRealData(QString)", scnNo)
 
+	# 종목코드의 한글명을 반환한다.
+	# strCode – 종목코드
+	# 종목한글명
+	@pyqtSlot(str, result=str)
+	def getMasterCodeName(self, code):
+		return self.ocx.dynamicCall("GetMasterCodeName(QString)", code)
