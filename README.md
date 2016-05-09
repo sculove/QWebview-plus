@@ -27,7 +27,7 @@
 
 ## 사용 예
 ```bash
-python main.py -f [실행할 html 파일명] -p 8888
+python main.py -f [실행할 html 파일명]
 ```
 > 실행할 파일을 입력하지 않을 경우, 기본적으로 index.html을 부른다.
 >
