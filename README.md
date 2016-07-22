@@ -2,7 +2,6 @@
  - 키움 오픈 API+ for JavaScript를 지원하는 Webkit2 기반의 WebView
  - ES5 지원
 
-
 ## Development Environment
  - Windows 32bit 권장
  - 키움증권 Open API+ (https://www1.kiwoom.com/nkw.templateFrameSet.do?m=m1408000000)
@@ -27,11 +26,15 @@
 
 ## 사용 예
 ```bash
+python main.py -u [실행항 URL]
 python main.py -f [실행할 html 파일명]
 ```
 > 실행할 파일을 입력하지 않을 경우, 기본적으로 index.html을 부른다.
 >
-> - -f 시작 페이지 경로 (기본: ./index.html)
+> - -f --file 시작 페이지 경로 (기본: ./index.html)
+> - -u --url 시작 URL 경로
+>
+> **URL과 페이지 경로를 함께 입력했을 경우, URL이 우선한다.**
 
 ## [Kiwoom-Helper](https://github.com/sculove/Kiwoom-Helper) 유틸
 QWebview-Plus에서 제공하는 kiwoom 객체와 이벤트를 손쉽게 사용할 수 있는 유틸
@@ -41,5 +44,3 @@ QWebview-Plus에서 제공하는 kiwoom 객체와 이벤트를 손쉽게 사용�
 Licensed under MIT:
 
 https://opensource.org/licenses/MIT
-
-
