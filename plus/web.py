@@ -36,10 +36,10 @@ class WebViewPlus(QWebView):
 
         #Keyboard shortcuts
         shortcut = {}
-        shortcut['F12'] = QShortcut(self)
-        shortcut['F12'].setContext(Qt.ApplicationShortcut)
-        shortcut['F12'].setKey(Qt.Key_F12)
-        shortcut['F12'].activated.connect(self._toggleInspector)
+        shortcut['F4'] = QShortcut(self)
+        shortcut['F4'].setContext(Qt.ApplicationShortcut)
+        shortcut['F4'].setKey(Qt.Key_F4)
+        shortcut['F4'].activated.connect(self._toggleInspector)
         #F5 - Page reloading
         shortcut['F5'] = QShortcut(self)
         shortcut['F5'].setKey(Qt.Key_F5)
