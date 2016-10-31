@@ -21,7 +21,7 @@ class Window(QMainWindow):
 
         self.view.statusbar = QStatusBar()
         self.setStatusBar(self.view.statusbar)
-        self.view.statusbar.showMessage("[F5키] 화면 Refresh, [F12키] 개발자 도구")
+        self.view.statusbar.showMessage("[F4키] 개발자 도구, [F5키] 화면 Refresh")
         # self.view.devTool.setVisible(True)
 
         # view split
