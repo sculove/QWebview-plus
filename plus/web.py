@@ -23,9 +23,13 @@ class WebViewPlus(QWebView):
     def __init__(self):
         super().__init__()
         self.setPage(WebPagePlus())
-        self._setupInspector()
+        self._setupWebview()
 
-    def _setupInspector(self):
+    def _setupWebview(self):
+        self.settings().setAttribute(QWebSettings.LocalStorageEnabled, True)
+        self.settings().setAttribute(QWebSettings.OfflineStorageDatabaseEnabled, True)
+        self.settings().setLocalStoragePath("storage")
+        
         """
         F12키를 누르면 "개발자 도구"가 노출됨
         """
@@ -57,9 +61,8 @@ class WebViewPlus(QWebView):
 
     def _toggleInspector(self):
         """
-        F12키를 다시 누르면 "개발자 도구"가 사라짐
+        F4키를 다시 누르면 "개발자 도구"가 토글됨.
         """
-        # self.webInspector.setVisible(not self.webInspector.isVisible())
         self.devTool.setVisible(not self.devTool.isVisible())
 
     # webview의 document에 이벤트를 발생함.
