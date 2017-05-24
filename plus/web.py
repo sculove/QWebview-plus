@@ -3,7 +3,7 @@ import logging
 from PyQt5.QtWebKitWidgets import QWebView, QWebPage, QWebInspector
 from PyQt5.QtWebKit import QWebSettings
 from PyQt5.QtWidgets import QShortcut, QDialog, QGridLayout, QWidget
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QDir
 
 
 class WebViewPlus(QWebView):
@@ -26,15 +26,28 @@ class WebViewPlus(QWebView):
         self._setupWebview()
 
     def _setupWebview(self):
-        self.settings().setAttribute(QWebSettings.LocalStorageEnabled, True)
-        self.settings().setAttribute(QWebSettings.OfflineStorageDatabaseEnabled, True)
-        self.settings().setLocalStoragePath("storage")
+        settings = self.settings()
+        currentPath = QDir.currentPath()
+        settings.setAttribute(QWebSettings.LocalStorageEnabled, True)
+        settings.setAttribute(QWebSettings.OfflineStorageDatabaseEnabled, True)
+        settings.setAttribute(QWebSettings.OfflineWebApplicationCacheEnabled, True)
+        settings.setAttribute(QWebSettings.DnsPrefetchEnabled, True)
+        settings.setAttribute(QWebSettings.CSSGridLayoutEnabled, True)
+        settings.setAttribute(QWebSettings.JavascriptCanOpenWindows, True)
+        settings.setAttribute(QWebSettings.JavascriptCanCloseWindows, True)
+        settings.setAttribute(QWebSettings.JavascriptCanAccessClipboard, True)
+        settings.setAttribute(QWebSettings.DeveloperExtrasEnabled, True)
+        settings.setOfflineStoragePath(currentPath + "/storage/offline")
+        settings.setOfflineWebApplicationCachePath(currentPath + "/storage/webcache")
+        settings.setLocalStoragePath(currentPath + "/storage/local")
+        settings.setOfflineStorageDefaultQuota(5 * 1024 * 1024)
+        settings.setOfflineWebApplicationCacheQuota(5 * 1024 * 1024)
+        settings.enablePersistentStorage()
         
         """
         F12키를 누르면 "개발자 도구"가 노출됨
         """
         # webinspector
-        self.settings().setAttribute(QWebSettings.DeveloperExtrasEnabled, True)
         self.webInspector = QWebInspector(self)
         self.webInspector.setPage(self.page())
 
