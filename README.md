@@ -13,8 +13,8 @@
  - pyQt5.5.1 32bit (https://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.5.1/)
 
 ## Download
- - Win32 QWebview-pluse 1.0 설치 파일
-   [Download Link](https://github.com/sculove/QWebview-plus/raw/master/dist/QWebview-plus-1.0-win32.msi)
+ - QWebview-pluse 1.0 
+   - Win32 MSI 설치 파일 : [Download Link](https://github.com/sculove/QWebview-plus/raw/master/dist/QWebview-plus-1.0-win32.msi)
 
 ## 키움 Open API+를 제공하는 kiwoom 객체
 ### window.kiwoom
