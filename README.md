@@ -12,6 +12,10 @@
  - Python 3.4.4 32bit (https://www.python.org/downloads/release/python-344/)
  - pyQt5.5.1 32bit (https://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.5.1/)
 
+## Download
+ - Win32 QWebview-pluse 1.0 설치 파일
+
+
 ## 키움 Open API+를 제공하는 kiwoom 객체 제공
 
 ### window.kiwoom
@@ -27,18 +31,6 @@
     - 이벤트 명에서 `on`이라는 prefix가 제거하고, 첫 문자를 소문자로 변경 `OnReceiveTrData => receiveTrData.kiwoom`
     - 이벤트에 의해 전달되는 속성은 detail에 포함되어 전달됨
     - 이벤트에 전달되는 속성명은 타입약어가 제거되고, 첫 문자를 소문자로 변경 `sScrNo => scrNo`
-
-## 사용 예
-```bash
-python main.py -u [실행항 URL]
-python main.py -f [실행할 html 파일명]
-```
-> 실행할 파일을 입력하지 않을 경우, 기본적으로 index.html을 부른다.
->
-> - -f --file 시작 페이지 경로 (기본: ./index.html)
-> - -u --url 시작 URL 경로
->
-> **URL과 페이지 경로를 함께 입력했을 경우, URL이 우선한다.**
 
 ## [Kiwoom-Helper](https://github.com/sculove/Kiwoom-Helper) 유틸
 QWebview-Plus에서 제공하는 kiwoom 객체와 이벤트를 손쉽게 사용할 수 있는 유틸

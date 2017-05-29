@@ -5,4 +5,4 @@ setup(  name = "QWebview-plus",
         version = "1.0",
         description = "QWebview supports Kiwoom Open API+ for JavaScript",
         author = "sculove",
-        executables = [Executable("main.py")])
+        executables = [Executable("qwebviewplus.py", base="Win32GUI")])
