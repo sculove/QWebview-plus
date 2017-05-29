@@ -3,7 +3,7 @@
 
 
 # QWebview-plus
- - 키움 오픈 API+ for JavaScript를 지원하는 Webkit2 기반의 WebView
+ - 키움 오픈 API+ for JavaScript를 지원하는 Webkit2 기반의 WebView 브라우저
  - ES5 지원
 
 ## Development Environment
@@ -14,10 +14,9 @@
 
 ## Download
  - Win32 QWebview-pluse 1.0 설치 파일
+   [Download Link](https://github.com/sculove/QWebview-plus/raw/master/dist/QWebview-plus-1.0-win32.msi)
 
-
-## 키움 Open API+를 제공하는 kiwoom 객체 제공
-
+## 키움 Open API+를 제공하는 kiwoom 객체
 ### window.kiwoom
  - [키움 오픈 API](https://download.kiwoom.com/web/openapi/kiwoom_openapi_plus_devguide_ver_1.1.pdf)와 동일한 메소드를 제공
  - 키움 오픈 API와 네이밍 규칙이 다름
