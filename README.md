@@ -1,7 +1,3 @@
-[![Issue Stats](http://issuestats.com/github/sculove/QWebview-plus/badge/pr?style=flat)](http://issuestats.com/github/sculove/QWebview-plus)
-[![Issue Stats](http://issuestats.com/github/sculove/QWebview-plus/badge/issue?style=flat)](http://issuestats.com/github/sculove/QWebview-plus)
-
-
 # QWebview-plus
  - 키움 오픈 API+ for JavaScript를 지원하는 Webkit2 기반의 WebView 브라우저
  - ES5 지원
