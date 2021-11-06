@@ -21,19 +21,10 @@ Date.prototype.yyyymmdd = function()
 </div>
 <script>
 var $code = $("#stockcode");
-document.addEventListener("eventConnect.kiwoom", function(e) {
-    var errcode = e.detail;
-    if(errcode == 0) {
-        console.info("로그인 완료");
-        console.log(kiwoom.getLoginInfo("ACCNO").replace(/;$/,"").split(";"));
-    } else {
-        console.error(kiwoom.parseErrorCode(errcode));
-    }
-});
 
 document.addEventListener("receiveMsg.kiwoom", function(e) {
     var data = e.detail;
-    console.info({
+    console.log({
         "scrNo" : data.scrNo,
         "rQName" : data.rQName,
         "trCode": data.trCode,
@@ -41,51 +32,40 @@ document.addEventListener("receiveMsg.kiwoom", function(e) {
     });
 });
 
-document.addEventListener("receiveTrData.kiwoom", function(e) {
-    var data = e.detail;
-    var len = kiwoom.getRepeatCnt(data.trCode, data.rQName);
-    console.info( data.rQName, data.trCode, len );
-
-    switch(data.trCode) {
-        case "opt10001" :
-            for(var i=0; i<len; i++) {
-                console.log("TR 데이터",{
-                    "종목명" : kiwoom.commGetData(data.trCode, "", data.rQName, i, "종목명"),
-                    "시가총액" : kiwoom.commGetData(data.trCode, "", data.rQName, i, "시가총액"),
-                    "거래량" : kiwoom.commGetData(data.trCode, "", data.rQName, i, "거래량"),
-                    "현재가" : kiwoom.commGetData(data.trCode, "", data.rQName, i, "현재가")
-                });
-            }
-            break;
-        case "opt10081" :
-            console.log("TR 데이터", JSON.parse(kiwoom.getCommDataEx(data.trCode, data.rQName)));
-            break;
+document.addEventListener("receiveTrData.kiwoom:opt10081", async function({detail}) {
+    const {trCode, rQName, recordName, prevNext, data} = detail;
+    if(prevNext == "2") {
+        console.log("다음건 요청", data);        
+        kiwoom.commRqData("주식일봉차트조회요청", "opt10081", prevNext, "0002", {
+            "종목코드": $code.val(),
+            "기준일자": (new Date()).yyyymmdd(),
+            "수정주가구분": 0
+        });
     }
 });
 
-document.addEventListener("receiveRealData.kiwoom", function(e) {
-    var data = e.detail;
-    console.info("실시간데이터", {
-        "jongmokCode" : data.jongmokCode,
-        "realType" : data.realType,
-        "realData": data.realData
+document.addEventListener("receiveRealData.kiwoom", function({detail}) {
+    const {code, realType, realData} = detail;
+    console.info("실시간데이터 이벤트 처리", {
+        code,
+        realType,
+        realData
     });
-    console.log(kiwoom.commGetData(data.jongmokCode, data.realType, 10,  0, ""));
 });
 
-$("#search").click(function(e) {
-    var status = kiwoom.getConnectState();
+$("#search").click(async function(e) {
+    var status = await kiwoom.getConnectState();
     if(status == 0) {
-        kiwoom.commConnect();
+        alert("로그인필요")
     } else if(status == 1) {
         search();
     }
 });
 
-$("#chart").click(function(e) {
-    var status = kiwoom.getConnectState();
+$("#chart").click(async function(e) {
+    var status = await kiwoom.getConnectState();
     if(status == 0) {
-        kiwoom.commConnect();
+        alert("로그인필요")
     } else if(status == 1) {
         chart();
     }
@@ -93,17 +73,19 @@ $("#chart").click(function(e) {
 
 // 종목 TR 검색
 function search() {
-    kiwoom.setInputValue("종목코드", $code.val());
     // rQName과 화면번호는 사용자가 지정하여 구분하는 값
-    kiwoom.commRqData("주식기본정보", "opt10001", 0, "0001");
+    kiwoom.commRqData("주식기본정보요청", "opt10001", 0, "0001", {
+        "종목코드": $code.val()
+    });
 }
 
 function chart() {
-    kiwoom.setInputValue("종목코드", $code.val());
-    kiwoom.setInputValue("기준일자", (new Date()).yyyymmdd());
-    kiwoom.setInputValue("수정주가구분 ", 0);
     // rQName과 화면번호는 사용자가 지정하여 구분하는 값
-    kiwoom.commRqData("주식일봉차트조회요청", "opt10081", 0, "0002");
+    kiwoom.commRqData("주식일봉차트조회요청", "opt10081", 0, "0002", {
+        "종목코드": $code.val(),
+        "기준일자": (new Date()).yyyymmdd(),
+        "수정주가구분": 0
+    });
 }
 </script>
 

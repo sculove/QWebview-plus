@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+# -*-coding: utf-8 -*-
+from PyQt5.QtCore import QFile, QIODevice
+from PyQt5.QtWebEngineWidgets import QWebEngineScript
+
 def parseErrorCode(code):
     """에러코드 메시지
 
@@ -38,3 +42,20 @@ def parseErrorCode(code):
         "-500" : "종목코드 없음"
     }
     return ("[%s] " + ht[code]) % code if code in ht else code
+
+def readFile(filepath):
+    file = QFile(filepath)
+    if not file.open(QIODevice.ReadOnly):
+        raise SystemExit('Failed to load qwebchannel_plus.js with error: %s' % file.errorString())
+    file = bytes(file.readAll()).decode('utf-8')
+    return file
+
+
+def createScript(sourceCode, injectionPoint = QWebEngineScript.DocumentCreation):
+    script = QWebEngineScript()
+    script.setSourceCode(sourceCode)
+    # script.setName(name)
+    script.setWorldId(QWebEngineScript.MainWorld)
+    script.setInjectionPoint(injectionPoint)
+    script.setRunsOnSubFrames(True)
+    return script

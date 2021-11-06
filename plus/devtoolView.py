@@ -5,10 +5,10 @@ class DevtoolView(QWebEngineView):
     """
     QWebEngineView 커스터마이징
     """
-    def __init__(self, port):
+    def __init__(self):
         super().__init__()
         self.setPage(QWebEnginePage(self))
-        self.load(QUrl("http://127.0.0.1:"+ port))
+        self.load(QUrl("http://127.0.0.1:9222"))
 
     def show(self):
         loadScript = """
