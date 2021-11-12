@@ -1,10 +1,12 @@
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEnginePage, QWebEngineSettings
 from PyQt5.QtCore import QUrl
 
+
 class DevtoolView(QWebEngineView):
     """
     QWebEngineView 커스터마이징
     """
+
     def __init__(self):
         super().__init__()
         self.setPage(QWebEnginePage(self))

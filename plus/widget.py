@@ -1,9 +1,8 @@
-
-
 from PyQt5.QtWidgets import QHBoxLayout, QShortcut, QWidget
 from plus.webview import WebViewPlus
 from plus.devtoolView import DevtoolView
 from PyQt5.QtCore import Qt
+
 
 class MainWidget(QWidget):
     def __init__(self):
@@ -12,7 +11,7 @@ class MainWidget(QWidget):
         self.devtool = DevtoolView()
         self.initUI()
         self.setShortcut()
-        
+
     def initUI(self):
         layout = QHBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
@@ -21,18 +20,17 @@ class MainWidget(QWidget):
         self.setLayout(layout)
 
     def setShortcut(self):
-        #Keyboard shortcuts
+        # Keyboard shortcuts
         shortcut = {}
-        
-        #F5 - Page reloading
-        shortcut['F5'] = QShortcut(self)
-        shortcut['F5'].setKey(Qt.Key_F5)
-        shortcut['F5'].activated.connect(self.webview.reload)
-        
-        shortcut['F12'] = QShortcut(self)
-        shortcut['F12'].setKey(Qt.Key_F12)
-        shortcut['F12'].activated.connect(self.toggleDevTool)
 
+        # F5 - Page reloading
+        shortcut["F5"] = QShortcut(self)
+        shortcut["F5"].setKey(Qt.Key_F5)
+        shortcut["F5"].activated.connect(self.webview.reload)
+
+        shortcut["F12"] = QShortcut(self)
+        shortcut["F12"].setKey(Qt.Key_F12)
+        shortcut["F12"].activated.connect(self.toggleDevTool)
 
     def toggleDevTool(self):
         """
