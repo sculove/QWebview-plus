@@ -2,11 +2,10 @@
 # -*-coding: utf-8 -*-
 import sys
 import os.path
-import re
 from optparse import OptionParser
 from PyQt5.QtCore import QUrl
 from PyQt5.QtWidgets import QApplication, QMainWindow, QStatusBar
-from plus.widget import MainWidget
+from plus.widget import QWebViewPlus
 
 
 class Window(QMainWindow):
@@ -16,7 +15,7 @@ class Window(QMainWindow):
         self.initUI()
 
     def initUI(self):
-        self.main = MainWidget()
+        self.main = QWebViewPlus()
         self.setMinimumSize(1024, 640)
         self.setWindowTitle("QWebview-plus for Kiwoom")
         self.setGeometry(800, 200, 300, 100)
@@ -51,6 +50,7 @@ def main():
                 os.path.join(os.path.dirname(os.path.abspath(__file__)), opt.file)
             )
         )
+        # window.main.webview.load(QUrl("http://localhost:3000"))
         window.show()
         sys.exit(app.exec_())
     else:

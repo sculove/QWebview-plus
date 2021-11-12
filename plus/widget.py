@@ -1,13 +1,13 @@
 from PyQt5.QtWidgets import QHBoxLayout, QShortcut, QWidget
-from plus.webview import WebViewPlus
+from plus.webview import QWebEngineViewPlus
 from plus.devtoolView import DevtoolView
 from PyQt5.QtCore import Qt
 
 
-class MainWidget(QWidget):
+class QWebViewPlus(QWidget):
     def __init__(self):
         super().__init__()
-        self.webview = WebViewPlus()
+        self.webview = QWebEngineViewPlus()
         self.devtool = DevtoolView()
         self.initUI()
         self.setShortcut()
