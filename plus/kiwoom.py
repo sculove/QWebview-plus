@@ -11,6 +11,7 @@ class Kiwoom(QObject):
 	def __init__(self):
 		super().__init__()
 		self._trParser = parser.TrParser(self)
+		self._realParser = parser.RealParser(self)
 		self.loginEventLoop = QEventLoop()
 		self.ocx = QAxWidget("KHOPENAPI.KHOpenAPICtrl.1")
 		self.ocx.OnEventConnect[int].connect(self._OnEventConnect)
@@ -71,17 +72,12 @@ class Kiwoom(QObject):
 
 	# 실시간 시세 이벤트
 	def _OnReceiveRealData(self, code, realType, realData):
- 		# if(realType == "주식체결")
-		# {
-		# 	self.getCommRealData(realData, 10);
-			
-		# }
-
+		data = self._realParser.parse(realType, realData)
 
 		self.fireEvent.emit("receiveRealData.kiwoom", json.dumps({
 			"code" : code,
 			"realType" : realType,
-			"realData": realData
+			"realData": data,
 		}, ensure_ascii=False))
 
 	# 체결데이터를 받은 시점을 알려준다.
