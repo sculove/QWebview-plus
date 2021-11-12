@@ -433,6 +433,10 @@ class Kiwoom(QObject):
     def getCodeListByMarket(self, strMarket):
         return self.ocx.dynamicCall("GetCodeListByMarket(QString)", strMarket)
 
+    @pyqtSlot(str, result=str)
+    def getMasterConstruction(self, strMarket):
+        return self.ocx.dynamicCall("GetMasterConstruction(QString)", strMarket)
+
     # 입력한 종목의 전일가를 전달
     # strCode – 종목코드
     def getMasterLastPrice(self, code):
