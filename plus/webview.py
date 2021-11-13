@@ -41,6 +41,8 @@ class QWebEngineViewPlus(QWebEngineView):
         settings.setAttribute(QWebEngineSettings.TouchIconsEnabled, True)
         settings.setAttribute(QWebEngineSettings.FocusOnNavigationEnabled, True)
         settings.setAttribute(QWebEngineSettings.AllowRunningInsecureContent, True)
+        settings.setAttribute(QWebEngineSettings.JavascriptCanAccessClipboard, True)
+        settings.setAttribute(QWebEngineSettings.JavascriptCanPaste, True)
         settings.setAttribute(
             QWebEngineSettings.AllowGeolocationOnInsecureOrigins, True
         )
