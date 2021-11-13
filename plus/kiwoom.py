@@ -420,6 +420,20 @@ class Kiwoom(QObject):
     def getMasterCodeName(self, code):
         return self.ocx.dynamicCall("GetMasterCodeName(QString)", code)
 
+    # 주식정보를 반환한다.
+    # code – 종목코드
+    @pyqtSlot(str, result="QJsonObject")
+    def getStock(self, code):
+        return {
+            "code": code,
+            "name": self.getMasterCodeName(code),
+            "construction": self.getMasterConstruction(code),
+            "lastPrice": self.getMasterLastPrice(code),
+            "stockCount": self.getMasterListedStockCnt(code),
+            "stockDate": self.getMasterListedStockDate(code),
+            "stockState": self.getMasterStockState(code),
+        }
+
     # 국내 주식 시장별 종목코드를 ;로 구분하여 전달
     # strMarket – 종목코드
     # 마켓 구분값
@@ -454,6 +468,19 @@ class Kiwoom(QObject):
     @pyqtSlot(str, result=int)
     def getMasterListedStockCnt(self, code):
         return self.ocx.dynamicCall("GetMasterListedStockCnt(QString)", code)
+
+    # 종목코드의 상장일을 반환한다.
+    # code – 종목코드
+    @pyqtSlot(str, result=str)
+    def getMasterListedStockDate(self, code):
+        return self.ocx.dynamicCall("GetMasterListedStockDate(QString)", code)
+
+    # 종목코드의 종목상태를 반환한다
+    # code – 종목코드
+    # 종목상태 : 정상, 증거금100%, 거래정지, 관리종목, 감리종목, 투자유의종목, 담보대출, 액면분할, 신용가능
+    @pyqtSlot(str, result=str)
+    def getMasterStockState(self, code):
+        return self.ocx.dynamicCall("GetMasterStockState(QString)", code)
 
     # @pyqtSlot(str, int, result=str)
     # def getThemeGroupList(self, type=1):
