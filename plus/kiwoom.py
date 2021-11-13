@@ -429,9 +429,12 @@ class Kiwoom(QObject):
     # 8 : ETF
     # 50 : KONEX
     # ...
-    @pyqtSlot(str, result=str)
+    @pyqtSlot(str, result=list)
     def getCodeListByMarket(self, strMarket):
-        return self.ocx.dynamicCall("GetCodeListByMarket(QString)", strMarket)
+        data = self.ocx.dynamicCall("GetCodeListByMarket(QString)", strMarket)
+        data = data.split(";")
+        data = list(filter(lambda x: bool(x.strip()), data))
+        return data
 
     # 종목코드의 감리구분을 반환한다.
     # code – 종목코드
