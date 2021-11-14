@@ -217,6 +217,13 @@ class Kiwoom(QObject):
     # OP_ERR_RQ_STRUCT_FAIL – 입력 구조체 생성 실패
     # OP_ERR_RQ_STRING_FAIL – 요청전문 작성 실패
     # OP_ERR_NONE – 정상처리
+    # 조회시 입력값 항목들은 SetInputValue 함수로 반드시 순서에 맞게 입력해야 합니다.
+    # 계좌비밀번호는 별도의 입력창으로 입력/등록하고 조회시에는 공백으로 입력합니다.
+    #   ex) SetInputValue("비밀번호"	,  "");
+    #  시세조회요청이 성공하면 해당종목의 실시간시세 데이터가 서버에 자동으로 등록됩니다.
+    #  이후 해당종목의 실시간 시세데이터는 OnReceiveRealData() 이벤트로 수신됩니다.
+    #  또는 시세조회가 필요없고 실시간시세만 필요한 경우는
+    #  SetRealReg 함수를 사용하여 특정종목(복수종목 가능)의 실시간시세를 서버에 등록할 수 있습니다.
     @pyqtSlot(str, str, int, str, "QJsonObject", result=int)
     def commRqData(self, rQName, trCode, prevNext, screenNo, inputDic):
         for key, value in inputDic.items():

@@ -47,5 +47,9 @@ class RealParser:
         return dict(zip(columns, values))
 
     def parse(self, realType, realData):
-        data = self.getRealData(TR_REAL_OUTPUT[realType], realData)
+        data = {}
+        if TR_REAL_OUTPUT[realType]:
+            data = self.getRealData(TR_REAL_OUTPUT[realType], realData)
+        else:
+            print("실시간 요청 TR이 존재하지 않습니다 ({realType})".format(realType=realType))
         return data
