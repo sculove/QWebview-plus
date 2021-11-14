@@ -193,9 +193,19 @@ class Kiwoom(QObject):
     # “USER_NAME” – 사용자명을 반환한다.
     # “KEY_BSECGB” – 키보드보안 해지여부. 0:정상, 1:해지
     # “FIREW_SECGB” – 방화벽 설정 여부. 0:미설정, 1:설정, 2:해지
-    @pyqtSlot(str, result=str)
-    def getLoginInfo(self, tag):
-        return self.ocx.dynamicCall("GetLoginInfo(QString)", [tag])
+    @pyqtSlot(result="QJsonObject")
+    def getLoginInfo(self):
+        acountNos = self.ocx.dynamicCall("GetLoginInfo(QString)", "ACCOUNT_CNT")
+        acountNos = list(acountNos.split(";"))
+
+        return {
+            "userId": self.ocx.dynamicCall("GetLoginInfo(QString)", "USER_ID"),
+            "userName": self.ocx.dynamicCall("GetLoginInfo(QString)", "USER_NAME"),
+            "accontCnt": self.ocx.dynamicCall("GetLoginInfo(QString)", "ACCOUNT_CNT"),
+            "accountNos": acountNos,
+            "keyBsecgb": self.ocx.dynamicCall("GetLoginInfo(QString)", "KEY_BSECGB"),
+            "firewSecgb": self.ocx.dynamicCall("GetLoginInfo(QString)", "FIREW_SECGB"),
+        }
 
     # Tran 입력 값을 서버통신 전에 입력값일 저장한다.
     def setInputValue(self, id, value):
