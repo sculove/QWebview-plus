@@ -20,15 +20,15 @@ class Kiwoom(QObject):
         self.ocx.OnReceiveTrData[str, str, str, str, str, int, str, str, str].connect(
             self._OnReceiveTrData
         )
-        self.ocx.OnReceiveRealData[str, str, str].connect(self._OnReceiveRealData)
-        self.ocx.OnReceiveChejanData[str, int, str].connect(self._OnReceiveChejanData)
-        self.ocx.OnReceiveConditionVer[int, str].connect(self._OnReceiveConditionVer)
-        self.ocx.OnReceiveTrCondition[str, str, str, int, int].connect(
-            self._OnReceiveTrCondition
-        )
-        self.ocx.OnReceiveRealCondition[str, str, str, str].connect(
-            self._OnReceiveRealCondition
-        )
+        # self.ocx.OnReceiveRealData[str, str, str].connect(self._OnReceiveRealData)
+        # self.ocx.OnReceiveChejanData[str, int, str].connect(self._OnReceiveChejanData)
+        # self.ocx.OnReceiveConditionVer[int, str].connect(self._OnReceiveConditionVer)
+        # self.ocx.OnReceiveTrCondition[str, str, str, int, int].connect(
+        #     self._OnReceiveTrCondition
+        # )
+        # self.ocx.OnReceiveRealCondition[str, str, str, str].connect(
+        #     self._OnReceiveRealCondition
+        # )
         self.commConnect()
 
     @pyqtSlot()
@@ -114,21 +114,21 @@ class Kiwoom(QObject):
     # 체결데이터를 받은 시점을 알려준다.
     # sGubun – 0:주문체결통보, 1:잔고통보, 3:특이신호
     # sFidList – 데이터 구분은 ‘;’ 이다.
-    def _OnReceiveChejanData(self, gubun, itemCnt, fidList):
-        self.fireEvent.emit(
-            "receiveChejanData.kiwoom",
-            json.dumps(
-                {"gubun": gubun, "itemCnt": itemCnt, "fidList": fidList},
-                ensure_ascii=False,
-            ),
-        )
+    # def _OnReceiveChejanData(self, gubun, itemCnt, fidList):
+    #     self.fireEvent.emit(
+    #         "receiveChejanData.kiwoom",
+    #         json.dumps(
+    #             {"gubun": gubun, "itemCnt": itemCnt, "fidList": fidList},
+    #             ensure_ascii=False,
+    #         ),
+    #     )
 
     # 로컬에 사용자조건식 저장 성공여부 응답 이벤트
-    def _OnReceiveConditionVer(self, ret, msg):
-        self.fireEvent.emit(
-            "receiveConditionVer.kiwoom",
-            json.dumps({"ret": ret, "msg": msg}, ensure_ascii=False),
-        )
+    # def _OnReceiveConditionVer(self, ret, msg):
+    #     self.fireEvent.emit(
+    #         "receiveConditionVer.kiwoom",
+    #         json.dumps({"ret": ret, "msg": msg}, ensure_ascii=False),
+    #     )
 
     # 조건검색 조회응답으로 종목리스트를 구분자(“;”)로 붙어서 받는 시점.
     # LPCTSTR sScrNo : 종목코드
@@ -136,39 +136,39 @@ class Kiwoom(QObject):
     # LPCTSTR strConditionName : 조건명
     # int nIndex : 조건명 인덱스
     # int nNext : 연속조회(2:연속조회, 0:연속조회없음)
-    def _OnReceiveTrCondition(self, scrNo, codeList, conditionName, index, next):
-        self.fireEvent.emit(
-            "receiveTrCondition.kiwoom",
-            json.dumps(
-                {
-                    "scrNo": scrNo,
-                    "codeList": codeList,
-                    "conditionName": conditionName,
-                    "index": index,
-                    "next": next,
-                },
-                ensure_ascii=False,
-            ),
-        )
+    # def _OnReceiveTrCondition(self, scrNo, codeList, conditionName, index, next):
+    #     self.fireEvent.emit(
+    #         "receiveTrCondition.kiwoom",
+    #         json.dumps(
+    #             {
+    #                 "scrNo": scrNo,
+    #                 "codeList": codeList,
+    #                 "conditionName": conditionName,
+    #                 "index": index,
+    #                 "next": next,
+    #             },
+    #             ensure_ascii=False,
+    #         ),
+    #     )
 
     # 편입, 이탈 종목이 실시간으로 들어옵니다.
     # strCode : 종목코드
     # strType : 편입(“I”), 이탈(“D”)
     # strConditionName : 조건명
     # strConditionIndex : 조건명 인덱스
-    def _OnReceiveRealCondition(self, code, type, conditionName, conditionIndex):
-        self.fireEvent.emit(
-            "receiveRealCondition.kiwoom",
-            json.dumps(
-                {
-                    "code": code,
-                    "type": type,
-                    "conditionName": conditionName,
-                    "conditionIndex": conditionIndex,
-                },
-                ensure_ascii=False,
-            ),
-        )
+    # def _OnReceiveRealCondition(self, code, type, conditionName, conditionIndex):
+    #     self.fireEvent.emit(
+    #         "receiveRealCondition.kiwoom",
+    #         json.dumps(
+    #             {
+    #                 "code": code,
+    #                 "type": type,
+    #                 "conditionName": conditionName,
+    #                 "conditionIndex": conditionIndex,
+    #             },
+    #             ensure_ascii=False,
+    #         ),
+    #     )
 
     # 로그인
     # 0 - 성공, 음수값은 실패
@@ -236,21 +236,21 @@ class Kiwoom(QObject):
     #
     # sArrCode – 종목간 구분은 ‘;’이다.
     # nTypeFlag – 0:주식관심종목정보, 3:선물옵션관심종목정보
-    @pyqtSlot(str, bool, int, int, str, str, "QJsonObject", result=int)
-    def commKwRqData(
-        self, arrCode, next, codeCount, typeFlag, rQName, screenNo, inputDic
-    ):
-        for key, value in inputDic.items():
-            self.setInputValue(key, value)
-        return self.ocx.dynamicCall(
-            "CommKwRqData(QString, QBoolean, int, int, QString, QString)",
-            arrCode,
-            next,
-            codeCount,
-            typeFlag,
-            rQName,
-            screenNo,
-        )
+    # @pyqtSlot(str, bool, int, int, str, str, "QJsonObject", result=int)
+    # def commKwRqData(
+    #     self, arrCode, next, codeCount, typeFlag, rQName, screenNo, inputDic
+    # ):
+    #     for key, value in inputDic.items():
+    #         self.setInputValue(key, value)
+    #     return self.ocx.dynamicCall(
+    #         "CommKwRqData(QString, QBoolean, int, int, QString, QString)",
+    #         arrCode,
+    #         next,
+    #         codeCount,
+    #         typeFlag,
+    #         rQName,
+    #         screenNo,
+    #     )
 
     # 수신 받은 데이터의 반복 개수를 반환한다.
     def getRepeatCnt(self, trCode, recordName):
@@ -317,31 +317,31 @@ class Kiwoom(QObject):
     # 매수 정정 - openApi.SendOrder(“RQ_1”,“0101”, “5015123410”, 5, “000660”, 10, 49500, “00”, “1”);
     # 매수 취소 - openApi.SendOrder(“RQ_1”, “0101”, “5015123410”, 3, “000660”, 10, “00”, “2”);
     # sOrgOrderNo – 원주문번호
-    @pyqtSlot(str, str, str, int, str, int, int, str, str, result=int)
-    def sendOrder(
-        self, rQName, screenNo, accNo, orderType, code, qty, price, hogaGb, orgOrderNo
-    ):
-        return self.ocx.dynamicCall(
-            "SendOrder(QString, QString, QString, int, QString, int, int, QString, QString)",
-            [rQName, screenNo, accNo, orderType, code, qty, price, hogaGb, orgOrderNo],
-        )
+    # @pyqtSlot(str, str, str, int, str, int, int, str, str, result=int)
+    # def sendOrder(
+    #     self, rQName, screenNo, accNo, orderType, code, qty, price, hogaGb, orgOrderNo
+    # ):
+    #     return self.ocx.dynamicCall(
+    #         "SendOrder(QString, QString, QString, int, QString, int, int, QString, QString)",
+    #         [rQName, screenNo, accNo, orderType, code, qty, price, hogaGb, orgOrderNo],
+    #     )
 
     # 체결잔고 데이터를 반환한다.
-    @pyqtSlot(int, result=str)
-    def getChejanData(self, fid):
-        return self.ocx.dynamicCall("GetChejanData(int)", fid)
+    # @pyqtSlot(int, result=str)
+    # def getChejanData(self, fid):
+    #     return self.ocx.dynamicCall("GetChejanData(int)", fid)
 
     # 서버에 저장된 사용자 조건식을 가져온다.
-    @pyqtSlot(result=int)
-    def getConditionLoad(self):
-        return self.ocx.dynamicCall("GetConditionLoad()")
+    # @pyqtSlot(result=int)
+    # def getConditionLoad(self):
+    #     return self.ocx.dynamicCall("GetConditionLoad()")
 
     # 조건검색 조건명 리스트를 받아온다.
     # 조건명 리스트(인덱스^조건명)
     # 조건명 리스트를 구분(“;”)하여 받아온다
-    @pyqtSlot(result=str)
-    def getConditionNameList(self):
-        return self.ocx.dynamicCall("GetConditionNameList()")
+    # @pyqtSlot(result=str)
+    # def getConditionNameList(self):
+    #     return self.ocx.dynamicCall("GetConditionNameList()")
 
     # 조건검색 종목조회TR송신한다.
     # LPCTSTR strScrNo : 화면번호
@@ -349,23 +349,23 @@ class Kiwoom(QObject):
     # int nIndex : 조건명인덱스
     # int nSearch : 조회구분(0:일반조회, 1:실시간조회, 2:연속조회)
     # 1:실시간조회의 화면 개수의 최대는 10개
-    @pyqtSlot(str, str, int, int)
-    def sendCondition(self, scrNo, conditionName, index, search):
-        self.ocx.dynamicCall(
-            "SendCondition(QString,QString, int, int)",
-            scrNo,
-            conditionName,
-            index,
-            search,
-        )
+    # @pyqtSlot(str, str, int, int)
+    # def sendCondition(self, scrNo, conditionName, index, search):
+    #     self.ocx.dynamicCall(
+    #         "SendCondition(QString,QString, int, int)",
+    #         scrNo,
+    #         conditionName,
+    #         index,
+    #         search,
+    #     )
 
     # 실시간 조건검색을 중지합니다.
     # ※ 화면당 실시간 조건검색은 최대 10개로 제한되어 있어서 더 이상 실시간 조건검색을 원하지 않는 조건은 중지해야만 카운트 되지 않습니다.
-    @pyqtSlot(str, str, int)
-    def sendConditionStop(self, scrNo, conditionName, index):
-        self.ocx.dynamicCall(
-            "SendConditionStop(QString, QString, int)", scrNo, conditionName, index
-        )
+    # @pyqtSlot(str, str, int)
+    # def sendConditionStop(self, scrNo, conditionName, index):
+    #     self.ocx.dynamicCall(
+    #         "SendConditionStop(QString, QString, int)", scrNo, conditionName, index
+    #     )
 
     # 실시간 등록을 한다.
     # strScreenNo : 화면번호
@@ -378,15 +378,15 @@ class Kiwoom(QObject):
     # 타입 “0”은 항상 마지막에 등록한 종목들만 실시간등록이 됩니다.
     # 타입 “1”은 이전에 실시간 등록한 종목들과 함께 실시간을 받고 싶은 종목을 추가로 등록할 때 사용합니다.
     # ※ 종목, FID는 각각 한번에 실시간 등록 할 수 있는 개수는 100개 입니다.
-    @pyqtSlot(str, str, str, int, result=int)
-    def setRealReg(self, screenNo, codeList, fidList, optType):
-        return self.ocx.dynamicCall(
-            "SetRealReg(QString, QString, QString, QString)",
-            screenNo,
-            codeList,
-            fidList,
-            optType,
-        )
+    # @pyqtSlot(str, str, str, int, result=int)
+    # def setRealReg(self, screenNo, codeList, fidList, optType):
+    #     return self.ocx.dynamicCall(
+    #         "SetRealReg(QString, QString, QString, QString)",
+    #         screenNo,
+    #         codeList,
+    #         fidList,
+    #         optType,
+    #     )
 
     # 종목별 실시간 해제
     # strScrNo : 화면번호
@@ -401,9 +401,9 @@ class Kiwoom(QObject):
     # 화면의 종목별로 실시간 해제하려면 파라메터에 해당화면번호와 해제할
     # 종목코드를 입력하시면 됩니다.
     # SetRealRemove(“0001”, “039490”);
-    @pyqtSlot(str, str)
-    def setRealRemove(self, scrNo, delCode):
-        self.ocx.dynamicCall("SetRealRemove(QString, QString)", scrNo, delCode)
+    # @pyqtSlot(str, str)
+    # def setRealRemove(self, scrNo, delCode):
+    #     self.ocx.dynamicCall("SetRealRemove(QString, QString)", scrNo, delCode)
 
     # 차트 조회한 데이터 전부를 배열로 받아온다.
     # LPCTSTR strTrCode : 조회한TR코드
@@ -419,9 +419,9 @@ class Kiwoom(QObject):
     # 화면 내 모든 리얼데이터 요청을 제거한다.
     # 화면을 종료할 때 반드시 위 함수를 호출해야 한다.
     # Ex) openApi.DisconnectRealData(“0101”);
-    @pyqtSlot(str)
-    def disconnectRealData(self, scnNo):
-        self.ocx.dynamicCall("DisconnectRealData(QString)", scnNo)
+    # @pyqtSlot(str)
+    # def disconnectRealData(self, scnNo):
+    #     self.ocx.dynamicCall("DisconnectRealData(QString)", scnNo)
 
     # 종목코드의 한글명을 반환한다.
     # strCode – 종목코드
