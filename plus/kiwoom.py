@@ -20,7 +20,7 @@ class Kiwoom(QObject):
         self.ocx.OnReceiveTrData[str, str, str, str, str, int, str, str, str].connect(
             self._OnReceiveTrData
         )
-        # self.ocx.OnReceiveRealData[str, str, str].connect(self._OnReceiveRealData)
+        self.ocx.OnReceiveRealData[str, str, str].connect(self._OnReceiveRealData)
         # self.ocx.OnReceiveChejanData[str, int, str].connect(self._OnReceiveChejanData)
         # self.ocx.OnReceiveConditionVer[int, str].connect(self._OnReceiveConditionVer)
         # self.ocx.OnReceiveTrCondition[str, str, str, int, int].connect(
@@ -385,15 +385,15 @@ class Kiwoom(QObject):
     # 타입 “0”은 항상 마지막에 등록한 종목들만 실시간등록이 됩니다.
     # 타입 “1”은 이전에 실시간 등록한 종목들과 함께 실시간을 받고 싶은 종목을 추가로 등록할 때 사용합니다.
     # ※ 종목, FID는 각각 한번에 실시간 등록 할 수 있는 개수는 100개 입니다.
-    # @pyqtSlot(str, str, str, int, result=int)
-    # def setRealReg(self, screenNo, codeList, fidList, optType):
-    #     return self.ocx.dynamicCall(
-    #         "SetRealReg(QString, QString, QString, QString)",
-    #         screenNo,
-    #         codeList,
-    #         fidList,
-    #         optType,
-    #     )
+    @pyqtSlot(str, str, str, int, result=int)
+    def setRealReg(self, screenNo, codeList, fidList, optType):
+        return self.ocx.dynamicCall(
+            "SetRealReg(QString, QString, QString, QString)",
+            screenNo,
+            codeList,
+            fidList,
+            optType,
+        )
 
     # 종목별 실시간 해제
     # strScrNo : 화면번호
@@ -408,9 +408,9 @@ class Kiwoom(QObject):
     # 화면의 종목별로 실시간 해제하려면 파라메터에 해당화면번호와 해제할
     # 종목코드를 입력하시면 됩니다.
     # SetRealRemove(“0001”, “039490”);
-    # @pyqtSlot(str, str)
-    # def setRealRemove(self, scrNo, delCode):
-    #     self.ocx.dynamicCall("SetRealRemove(QString, QString)", scrNo, delCode)
+    @pyqtSlot(str, str)
+    def setRealRemove(self, scrNo, delCode):
+        self.ocx.dynamicCall("SetRealRemove(QString, QString)", scrNo, delCode)
 
     # 차트 조회한 데이터 전부를 배열로 받아온다.
     # LPCTSTR strTrCode : 조회한TR코드
@@ -499,10 +499,18 @@ class Kiwoom(QObject):
     def getMasterStockState(self, code):
         return self.ocx.dynamicCall("GetMasterStockState(QString)", code)
 
-    # @pyqtSlot(str, int, result=str)
-    # def getThemeGroupList(self, type=1):
-    #     return self.ocx.dynamicCall("GetThemeGroupList(int)", type)
+    @pyqtSlot(int, result="QJsonObject")
+    def getThemeGroupList(self, type):
+        data = self.ocx.dynamicCall("GetThemeGroupList(int)", type)
+        tokens = data.split(";")
+        if type == 0:
+            grp = {x.split("|")[0]: x.split("|")[1] for x in tokens}
+        else:
+            grp = {x.split("|")[1]: x.split("|")[0] for x in tokens}
+        return grp
 
-    # @pyqtSlot(str, str, result=str)
-    # def getThemeGroupCode(self, themeCode):
-    #     return self.ocx.dynamicCall("GetThemeGroupCode(QString)", themeCode)
+    @pyqtSlot(str, result=list)
+    def getThemeGroupCode(self, themeCode):
+        data = self.ocx.dynamicCall("GetThemeGroupCode(QString)", themeCode)
+        data = data.split(";")
+        return [x[1:] for x in data]
